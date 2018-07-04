@@ -5,37 +5,31 @@ import org.springframework.data.annotation.Id;
 public class Request {
 
     @Id
-    private int responseTime;
-    private String response;
-    private int id;
+    private String id;
 
-    public Request(int responseTime, String response) {
+    private long responseTime;
+    private String requestUrl;
+
+
+    public Request(long responseTime, String requestUrl) {
         this.responseTime = responseTime;
-        this.response = response;
+        this.requestUrl = requestUrl;
     }
 
-    public int getId() {
-        return id;
+    public String getRequestUrl() {
+        return requestUrl;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
     }
 
-    public int getResponseTime() {
+    public long getResponseTime() {
         return responseTime;
     }
 
     public void setResponseTime(int responseTime) {
         this.responseTime = responseTime;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
     }
 
 }
