@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>GSMA Spring Task</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/content.css}"/>
+</head>
+<body>
+<div class="container">
+        <table class="paleBlueRows">
+            <tr>
+                <th>Id</th>
+                <th>Response Time</th>
+                <th>Request Url</th>
+            </tr>
+            <tr th:each="product : ${requests}">
+                <td th:text="${product.id}">Id</td>
+                <td th:text="${product.responseTime}">Response Time</td>
+                <td th:text="${product.requestUrl}">Url</td>
+            </tr>
+        </table>
+</div>
+
+</body>
+</html>

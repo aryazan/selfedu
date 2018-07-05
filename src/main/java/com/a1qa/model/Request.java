@@ -6,7 +6,6 @@ public class Request {
 
     @Id
     private String id;
-
     private long responseTime;
     private String requestUrl;
 
@@ -32,4 +31,16 @@ public class Request {
         this.responseTime = responseTime;
     }
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setResponseTime(long responseTime) {
+        this.responseTime = responseTime;
+    }
 }

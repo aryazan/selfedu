@@ -1,115 +1,77 @@
 package com.a1qa.service;
 
-import com.a1qa.dao.IMongoWrapper;
+import aqa.logger.Logger;
+import com.a1qa.dao.RequestsRepo;
 import com.a1qa.model.Request;
 import com.a1qa.rest.RestClient;
 import com.a1qa.rest.RestClientResponse;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.http.client.methods.HttpGet;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class RequestService {
 
+    private final Logger logger = Logger.getInstance();
+
     @Autowired
-    private IMongoWrapper iMongoWrapper;
-
-    private final static int REQUESTS_COUNT = 50;
-
-    AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient();
+    private RequestsRepo requestsRepo;
+    private final static int REQUESTS_COUNT = 1000;
+    private final static int ONE_MINUTE_IN_MS = 60000;
 
     public Collection<Request> getAllRequests() {
-        return iMongoWrapper.findAll();
+        return requestsRepo.findAll();
     }
 
     public List<Request> getRequestsByUrl(String url) {
-        return iMongoWrapper.findByRequestUrl(url);
+        return requestsRepo.findByRequestUrl(url);
     }
 
     public void saveRequest(Request request) {
-        iMongoWrapper.save(request);
+        requestsRepo.save(request);
     }
 
-    public void sendRequestAsync(String url){
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void sendRequestInNewThread(String url) {
         new Thread(() -> {
             try {
-                sendRequest(url);
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start();
+                RestClientResponse restClientResponse = sendGetRequest(url);
+                stopWatch.stop();
+                saveRequestToDb(new Request(stopWatch.getTime(), restClientResponse.getRequestUri()));
             } catch (IOException e) {
+                logger.warn("Error while sending request request");
                 e.printStackTrace();
             }
         }).start();
     }
 
-    public void sendRequest(String requestUrl) throws IOException {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        RestClient restClient = new RestClient();
-        RestClientResponse restClientResponse = restClient.runGetRequest(new HttpGet(requestUrl));
-        stopWatch.stop();
-        System.out.println(String.format("Request status  [ %s ], time - [ %s ]", restClientResponse.getRequestUri() , stopWatch.getTime()));
-        saveRequest(new Request(stopWatch.getTime(), restClientResponse.getRequestUri()));
+    public RestClientResponse sendGetRequest(String url) throws IOException {
+        return new RestClient().runGetRequest(new HttpGet(url));
     }
 
-    public void sendRequests() throws IOException, ExecutionException, InterruptedException {
-//        RestClient restClient = new RestClient();
+    public void saveRequestToDb(Request request) {
+        System.out.println(String.format("Request status  [%s], time : [ %s ms]", request.getRequestUrl(), request.getResponseTime()));
+        saveRequest(request);
+    }
 
-        while (getAllRequests().size() < 1000) {
-            sendRequestAsync("http://172.20.69.45/status/200");
-            sendRequestAsync("http://172.20.69.45/delay/1");
-//            StopWatch stopWatch = new StopWatch();
-//            stopWatch.start();
-//            System.out.println(getAllRequests().size());
-
-//            CompletableFuture<Response> whenResponse = asyncHttpClient.prepareGet("http://httpbin.org/status/200")
-//                    .execute()
-//                    .toCompletableFuture()
-//                    .thenApply(response -> {
-//                        System.out.println(String.format("Request status  [ %s ], time - [ %s ]", "(first request)" , stopWatch.getTime()));
-//                        System.out.println(response.getUri().toUrl());
-//                        saveRequest(new Request(stopWatch.getTime(), response.getUri().toUrl()));
-//                        System.out.println("FIRST COMPLETED");
-//                        return response;});
-
-//            whenResponse.join();
-//            stopWatch.stop();
-//            System.out.println(String.format("Request status 200 [ %s ], time - [ %s ]", i + 1 , stopWatch.getTime()));
-//            saveRequest(new Request(stopWatch.getTime(), whenResponse.get().getUri().toUrl()));
-//            stopWatch.reset();
-//            stopWatch.start();
-
-//            CompletableFuture<Response> secondResponse = asyncHttpClient.prepareGet("http://httpbin.org/delay/1")
-//                    .execute()
-//                    .toCompletableFuture()
-//                    .thenApply(response -> {
-//                        System.out.println(String.format("Request delay  [ %s ], time - [ %s ]", "(second request)" , stopWatch.getTime()));
-//                        System.out.println(response.getUri().toUrl());
-//                        saveRequest(new Request(stopWatch.getTime(), response.getUri().toUrl()));
-//                        System.out.println("SECOND COMPLETED");
-//                        return response;
-//                    });
-
-//            secondResponse.join();
-//            stopWatch.stop();
-//            System.out.println(String.format("Request delay  [ %s ], time - [ %s ]", i + 1 , stopWatch.getTime()));
-//            saveRequest(new Request(stopWatch.getTime(), secondResponse.get().getUri().toUrl()));
-//            stopWatch.reset();
-//            stopWatch.start();
-  //          i++;
-
-//        }
+    public void sendRequests() {
+        //#TODO переместить очистку отсюда
+        requestsRepo.deleteAll();
+        while (getAllRequests().size() < REQUESTS_COUNT) {
+            sendRequestInNewThread("http://172.20.69.45/status/200");
+            sendRequestInNewThread(String.format("http://172.20.69.45/delay/%s", RandomUtils.nextInt(1, 6)));
+            try {
+                Thread.sleep(ONE_MINUTE_IN_MS / REQUESTS_COUNT);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
