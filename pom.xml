@@ -17,13 +17,14 @@
     <properties>
         <java.version>1.8</java.version>
         <repositoryId>nexus</repositoryId>
-        <repositoriesHost>http://qa-auto-nexus:8081/repository</repositoriesHost>
+        <repositoriesHost>https://qa-auto-nexus.demohoster.com/repository</repositoriesHost>
         <snapshotRepositoryUrl>${repositoriesHost}/maven-snapshots/</snapshotRepositoryUrl>
         <releasesRepositoryUrl>${repositoriesHost}/maven-releases/</releasesRepositoryUrl>
         <publicRepositoryUrl>${repositoriesHost}/maven-public/</publicRepositoryUrl>
         <snapshotsRepositoryName>Nexus Snapshots</snapshotsRepositoryName>
         <releasesRepositoryName>Nexus Releases</releasesRepositoryName>
         <publicRepositoryName>Nexus Repository</publicRepositoryName>
+
     </properties>
 
     <dependencies>

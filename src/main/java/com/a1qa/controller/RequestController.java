@@ -28,13 +28,8 @@ public class RequestController {
 
     @GetMapping(path = "/stop")
     public String stopSendingRequests(){
-        System.out.println("LOLOMG");
-        System.out.println("LOLOMG");
-        System.out.println("LOLOMG");
-        System.out.println("LOLOMG");
-        System.out.println("LOLOMG");
-        System.out.println("LOLOMG");
-        return "stop";
+        requestService.stopSendRequests();
+        return "index";
     }
 
     @GetMapping(path = "/content")

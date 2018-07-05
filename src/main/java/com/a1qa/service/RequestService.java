@@ -1,6 +1,7 @@
 package com.a1qa.service;
 
 import aqa.logger.Logger;
+import aqa.properties.PropertiesResourceManager;
 import com.a1qa.dao.RequestsRepo;
 import com.a1qa.model.Request;
 import com.a1qa.rest.RestClient;
@@ -22,8 +23,13 @@ public class RequestService {
 
     @Autowired
     private RequestsRepo requestsRepo;
-    private final static int REQUESTS_COUNT = 1000;
+    private final static int REQUESTS_COUNT = 100;
     private final static int ONE_MINUTE_IN_MS = 60000;
+
+    private static PropertiesResourceManager requestsProps = new PropertiesResourceManager("requests.properties");
+
+
+    private boolean sendRequests = true;
 
     public Collection<Request> getAllRequests() {
         return requestsRepo.findAll();
@@ -37,7 +43,7 @@ public class RequestService {
         requestsRepo.save(request);
     }
 
-    public void sendRequestInNewThread(String url) {
+    public void saveSendedRequestInDb(String url) {
         new Thread(() -> {
             try {
                 StopWatch stopWatch = new StopWatch();
@@ -64,9 +70,14 @@ public class RequestService {
     public void sendRequests() {
         //#TODO переместить очистку отсюда
         requestsRepo.deleteAll();
-        while (getAllRequests().size() < REQUESTS_COUNT) {
-            sendRequestInNewThread("http://172.20.69.45/status/200");
-            sendRequestInNewThread(String.format("http://172.20.69.45/delay/%s", RandomUtils.nextInt(1, 6)));
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+     //   while (stopWatch.getTime() != 60000) {
+        while (sendRequests) {
+            saveSendedRequestInDb(String.format(requestsProps.getProperty("applicationUrl"), requestsProps.getProperty("status200Url")));
+            saveSendedRequestInDb(String.format(requestsProps.getProperty("applicationUrl"), String.format(requestsProps.getProperty
+                    ("delayXurl"), RandomUtils.nextInt(1, 6))));
             try {
                 Thread.sleep(ONE_MINUTE_IN_MS / REQUESTS_COUNT);
             } catch (InterruptedException e) {
@@ -74,4 +85,10 @@ public class RequestService {
             }
         }
     }
+
+    public void stopSendRequests(){
+        this.sendRequests = false;
+    }
+
+
 }
