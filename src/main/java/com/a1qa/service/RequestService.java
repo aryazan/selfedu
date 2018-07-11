@@ -23,7 +23,7 @@ public class RequestService {
 
     @Autowired
     private RequestsRepo requestsRepo;
-    private final static int REQUESTS_COUNT = 100;
+    private final static int REQUESTS_COUNT = 50;
     private final static int ONE_MINUTE_IN_MS = 60000;
 
     private static PropertiesResourceManager requestsProps = new PropertiesResourceManager("requests.properties");
@@ -52,7 +52,7 @@ public class RequestService {
                 stopWatch.stop();
                 saveRequestToDb(new Request(stopWatch.getTime(), restClientResponse.getRequestUri()));
             } catch (IOException e) {
-                logger.warn("Error while sending request request");
+                logger.warn("Error while sending request");
                 e.printStackTrace();
             }
         }).start();
@@ -73,13 +73,12 @@ public class RequestService {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-     //   while (stopWatch.getTime() != 60000) {
         while (sendRequests) {
             saveSendedRequestInDb(String.format(requestsProps.getProperty("applicationUrl"), requestsProps.getProperty("status200Url")));
             saveSendedRequestInDb(String.format(requestsProps.getProperty("applicationUrl"), String.format(requestsProps.getProperty
                     ("delayXurl"), RandomUtils.nextInt(1, 6))));
             try {
-                Thread.sleep(ONE_MINUTE_IN_MS / REQUESTS_COUNT);
+                Thread.sleep(ONE_MINUTE_IN_MS / (REQUESTS_COUNT));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
