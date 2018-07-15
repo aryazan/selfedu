@@ -1,5 +1,6 @@
 package com.a1qa.controller;
 
+import com.a1qa.service.DatabaseService;
 import com.a1qa.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,12 @@ public class RequestController {
 
     @Autowired
     private RequestService requestService;
+    @Autowired
+    private DatabaseService databaseService;
 
     @GetMapping(path = "/")
     public String startApp(Model model) throws IOException {
+        databaseService.clearDb();
         return "index";
     }
 
