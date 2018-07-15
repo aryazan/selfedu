@@ -20,12 +20,14 @@ public class RequestController {
 
     @GetMapping(path = "/")
     public String startApp(Model model) throws IOException {
+        //#TODO: удалить очистку после выполнения задания
         databaseService.clearDb();
         return "index";
     }
 
     @GetMapping(path = "/start")
     public String sendRequests() throws IOException, ExecutionException, InterruptedException {
+        requestService.startSendRequests();
         requestService.sendRequests();
         return "start";
     }

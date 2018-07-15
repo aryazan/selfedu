@@ -2,23 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
    
 <head>
-          
     <meta charset="UTF-8"/>
     <title>GSMA Spring Task</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
        
 </head>
    
 <body>
-<h1> Welcome coder
-</h1>   
-
+<div th:replace="fragments/header :: content"></div>
 <form action="start">
     <input type="submit" value="START">
 </form>
 
 <form action="stop">
-<input type="submit" value="STOP">
+    <input type="submit" value="STOP">
 </form>
 </body>
     

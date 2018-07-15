@@ -85,5 +85,10 @@ public class RequestService {
         this.sendRequests = false;
     }
 
+    public void startSendRequests() {
+        if (!sendRequests)
+            this.sendRequests = true;
+    }
+
 
 }
