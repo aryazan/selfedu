@@ -3,6 +3,7 @@ package com.a1qa.service;
 import aqa.logger.Logger;
 import aqa.properties.PropertiesResourceManager;
 import com.a1qa.dao.RequestsRepo;
+import com.a1qa.model.Config;
 import com.a1qa.model.Request;
 import com.a1qa.rest.RestClient;
 import com.a1qa.rest.RestClientResponse;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -29,12 +29,12 @@ public class RequestService {
     private final static int MIN_DELAY = Integer.parseInt(REQUESTS_PROPS.getProperty("min.delay"));
     private final static int MAX_DELAY = Integer.parseInt(REQUESTS_PROPS.getProperty("max.delay"));
     private final static int ONE_MINUTE_IN_MS = 60000;
-    private static int REQUESTS_COUNT = Integer.parseInt(REQUESTS_PROPS.getProperty("default.requests.count"));
+    private Config config = new Config(Integer.parseInt(REQUESTS_PROPS.getProperty("default.requests.count")));
     private final Logger logger = Logger.getInstance();
     private boolean sendRequests = true;
 
-    public Collection<Request> getAllRequests() {
-        return requestsRepo.findAll();
+    public void setConfig(Config config) {
+        this.config = config;
     }
 
     public List<Request> getRequestsByUrl(String url) {
@@ -73,8 +73,11 @@ public class RequestService {
         while (sendRequests) {
             saveSendedRequestInDb(STATUS_200_URL);
             saveSendedRequestInDb(String.format(DELAY_URL, RandomUtils.nextInt(MIN_DELAY, MAX_DELAY)));
+            logger.info("=============");
+            logger.info("Current requests count is: " + config.getCount());
+            logger.info("=============");
             try {
-                Thread.sleep(ONE_MINUTE_IN_MS / (REQUESTS_COUNT));
+                Thread.sleep(ONE_MINUTE_IN_MS / config.getCount());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

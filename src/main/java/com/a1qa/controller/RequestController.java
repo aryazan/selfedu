@@ -1,5 +1,6 @@
 package com.a1qa.controller;
 
+import com.a1qa.model.Config;
 import com.a1qa.service.DatabaseService;
 import com.a1qa.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class RequestController {
     public String startApp(Model model) throws IOException {
         //#TODO: удалить очистку после выполнения задания
         databaseService.clearDb();
+        databaseService.saveConfig(new Config());
         return "index";
     }
 
@@ -29,19 +31,13 @@ public class RequestController {
     public String sendRequests() throws IOException, ExecutionException, InterruptedException {
         requestService.startSendRequests();
         requestService.sendRequests();
-        return "start";
-    }
-
-    @GetMapping(path = "/stop")
-    public String stopSendingRequests(){
-        requestService.stopSendRequests();
         return "index";
     }
 
-    @GetMapping(path = "/content")
-    public String openDbContent(Model model) {
-        model.addAttribute("requests", requestService.getAllRequests());
-        return "content";
+    @GetMapping(path = "/stop")
+    public String stopSendingRequests() {
+        requestService.stopSendRequests();
+        return "index";
     }
 
 }
