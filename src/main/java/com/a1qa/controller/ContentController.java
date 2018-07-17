@@ -17,4 +17,5 @@ public class ContentController {
         model.addAttribute("requests", requestService.getAllRequests());
         return "content";
     }
+
 }
