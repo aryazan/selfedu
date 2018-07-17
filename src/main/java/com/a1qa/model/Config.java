@@ -1,11 +1,12 @@
 package com.a1qa.model;
 
+import com.a1qa.utils.Constants;
 import org.springframework.data.annotation.Id;
 
 public class Config {
 
     @Id
-    private String id;
+    private String id = Constants.CONFIG_ID;
     private int count;
 
     public Config(int count) {
@@ -34,10 +35,5 @@ public class Config {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public Config setDefaultParams(){
-        this.count = 25;
-        return this;
     }
 }

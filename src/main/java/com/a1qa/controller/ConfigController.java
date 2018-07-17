@@ -21,18 +21,17 @@ public class ConfigController {
     //#TODO: все исправить
 
     @PostMapping(path = "/config")
-    public String setConfig(@RequestParam(defaultValue = "10", name="count") int count, Model model) {
+    public String setConfig(@RequestParam(defaultValue = "10", name = "count") int count, Model model) {
         Config config = new Config(count);
         databaseService.saveConfig(config);
         model.addAttribute("config", config);
-        requestService.setConfig(config);
+        requestService.updateRequestsCount();
         return "config";
     }
 
     @GetMapping(path = "/config")
     public String showConfig(Model model) {
-        //#TODO как-то брать засетаный конфиг
-        model.addAttribute("config", new Config().setDefaultParams());
+        model.addAttribute("config", databaseService.getConfig());
         return "config";
     }
 }
