@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>GSMA Spring Task</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
        
 </head>
@@ -12,11 +12,11 @@
 <body>
 <div th:replace="fragments/header :: content"></div>
 <form action="start">
-    <input type="submit" value="START">
+    <input type="submit" class="input" value="Start">
 </form>
 
 <form action="stop">
-    <input type="submit" value="STOP">
+    <input type="submit" class="input inputStop" value="Stop">
 </form>
 </body>
     

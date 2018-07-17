@@ -13,7 +13,7 @@ import java.io.IOException;
 public class MainController {
 
     @Autowired
-    private ConfigService databaseService;
+    private ConfigService configService;
 
     @Autowired
     private RequestService requestService;
@@ -21,9 +21,11 @@ public class MainController {
     @GetMapping(path = "/")
     public String startApp(Model model) throws IOException {
         //#TODO: удалить очистку после выполнения задания
- //       databaseService.clearDb();
-        databaseService.setDefaultConfigIfNotExist();
+ //       configService.clearDb();
+        configService.setDefaultConfigIfNotExist();
         requestService.updateRequestsCount();
         return "index";
     }
+
+
 }

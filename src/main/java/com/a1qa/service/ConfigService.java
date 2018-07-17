@@ -36,7 +36,6 @@ public class ConfigService {
     }
 
     public void setDefaultConfigIfNotExist() {
-        System.out.println("Congis in DB: " + (configRepo.count() == 0));
         if (configRepo.count() == 0)
             saveConfig(defaultConfig);
     }

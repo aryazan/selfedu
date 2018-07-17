@@ -3,12 +3,13 @@
 <head>
     <title>GSMA Spring Task</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}"/>
 </head>
 <body>
 <div th:replace="fragments/header :: content"></div>
 <form action="#" th:action="@{/config}" th:object="${config}" method="post">
-    <p>Requests count: <input type="number" th:field="*{count}" placeholder="Enter requests count"/></p>
-    <p><input type="submit" value="Submit" /></p>
+    <p>Enter requests/min count: <input type="number" th:field="*{count}"/></p>
+    <p><input type="submit" class="input" value="Submit" /></p>
 </form>
 </body>
 </html>

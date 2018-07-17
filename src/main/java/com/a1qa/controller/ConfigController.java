@@ -16,14 +16,12 @@ public class ConfigController {
     @Autowired
     private RequestService requestService;
     @Autowired
-    private ConfigService databaseService;
-
-    //#TODO: все исправить
+    private ConfigService configService;
 
     @PostMapping(path = "/config")
     public String setConfig(@RequestParam(defaultValue = "10", name = "count") int count, Model model) {
         Config config = new Config(count);
-        databaseService.saveConfig(config);
+        configService.saveConfig(config);
         model.addAttribute("config", config);
         requestService.updateRequestsCount();
         return "config";
@@ -31,7 +29,7 @@ public class ConfigController {
 
     @GetMapping(path = "/config")
     public String showConfig(Model model) {
-        model.addAttribute("config", databaseService.getConfig());
+        model.addAttribute("config", configService.getConfig());
         return "config";
     }
 }
