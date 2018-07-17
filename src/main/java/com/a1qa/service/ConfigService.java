@@ -4,15 +4,12 @@ import aqa.properties.PropertiesResourceManager;
 import com.a1qa.dao.ConfigRepo;
 import com.a1qa.dao.RequestsRepo;
 import com.a1qa.model.Config;
-import com.a1qa.model.Request;
 import com.a1qa.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-
 @Service
-public class DatabaseService {
+public class ConfigService {
 
     @Autowired
     private RequestsRepo requestsRepo;
@@ -34,16 +31,15 @@ public class DatabaseService {
         configRepo.deleteAll();
     }
 
-    public Collection<Request> getAllRequests() {
-        return requestsRepo.findAll();
-    }
-
     public Config getConfig() {
         return configRepo.findConfigById(CONFIG_ID);
     }
 
-    public void setDefaultConfig() {
-        saveConfig(defaultConfig);
+    public void setDefaultConfigIfNotExist() {
+        System.out.println("Congis in DB: " + (configRepo.count() == 0));
+        if (configRepo.count() == 0)
+            saveConfig(defaultConfig);
     }
+
 
 }

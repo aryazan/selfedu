@@ -1,7 +1,7 @@
 package com.a1qa.controller;
 
 import com.a1qa.model.Config;
-import com.a1qa.service.DatabaseService;
+import com.a1qa.service.ConfigService;
 import com.a1qa.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ public class ConfigController {
     @Autowired
     private RequestService requestService;
     @Autowired
-    private DatabaseService databaseService;
+    private ConfigService databaseService;
 
     //#TODO: все исправить
 

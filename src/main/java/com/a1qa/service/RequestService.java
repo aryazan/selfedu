@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -41,6 +42,10 @@ public class RequestService {
 
     public void updateRequestsCount() {
         this.config = configRepo.findConfigById(CONFIG_ID);
+    }
+
+    public Collection<Request> getAllRequests() {
+        return requestsRepo.findAll();
     }
 
     public List<Request> getRequestsByUrl(String url) {
@@ -76,7 +81,7 @@ public class RequestService {
     }
 
     public void sendRequests() {
-        if (config == null)
+        if (this.config == null)
             updateRequestsCount();
         while (sendRequests) {
             saveSendedRequestInDb(STATUS_200_URL);
@@ -85,7 +90,7 @@ public class RequestService {
             logger.info(("Current requests count is: " + config.getCount()).toUpperCase());
             logger.info("=============");
             try {
-                Thread.sleep(ONE_MINUTE_IN_MS / config.getCount());
+                Thread.sleep(ONE_MINUTE_IN_MS / this.config.getCount());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
