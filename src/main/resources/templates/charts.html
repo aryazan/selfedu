@@ -19,27 +19,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 <body>
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="canvas" width="200" height="200"></canvas>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
+        // var jsonfile = {
+        //     "jsonarray": [
+        //         {
+        //             "id":"5b4ef051b9b57b46b81366f6",
+        //             "responseTime":213,
+        //             "requestUrl":"http://172.20.69.45/status/200"
+        //         },
+        //         {
+        //             "id":"5b4ef052b9b57b46b81366f7",
+        //             "responseTime":12,
+        //             "requestUrl":"http://172.20.69.45/status/200"
+        //         },
+        //         {
+        //             "id":"5b4ef053b9b57b46b81366f8",
+        //             "responseTime":2198,
+        //             "requestUrl":"http://172.20.69.45/status/200"
+        //         }
+        //     ]
+        // };
 
-        // The data for our dataset
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        },
+        const http = new XMLHttpRequest()
 
-        // Configuration options go here
-        options: {}
-    });
+        http.open("GET", "http://localhost:220/test")
+        http.send()
+
+
+        http.onload = function () {
+          jsonarray = JSON.parse(http.responseText);
+          var values = Object.keys(obj).map(function (key) { return obj[key]; });
+          console.log(jsonarray)
+        };
+
+        var values = Object.keys(obj).map(function (key) { return obj[key]; });
+
+        var labels = jsonarray(function(e) {
+            return e.requestUrl;
+        });
+        var data = jsonarray(function(e) {
+            return e.responseTime;
+        });;
+
+        var ctx = canvas.getContext('2d');
+        var config = {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Graph Line',
+                    data: data,
+                    backgroundColor: 'rgba(0, 119, 204, 0.3)'
+                }]
+            }
+        };
+
+        var chart = new Chart(ctx, config);
 </script>
 </body>
 </html>
