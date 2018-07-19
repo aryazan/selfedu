@@ -1,12 +1,98 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+    <!--<title>GSMA Spring Task</title>-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>-->
+    <!--<script src="path/to/chartjs/dist/Chart.js"></script>-->
+    <!--<script>-->
+        <!--var myChart = new Chart(ctx, {...});-->
+    <!--</script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:replace="fragments/header :: content"></div>-->
+<!--<div id="chartContainer" style="height: 300px; width: 100%;"></div>-->
+<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>GSMA Spring Task</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
-    <script type="text/javascript" th:src="@{/js/Chart.bundle.js}"></script>
+    <title>GSMA Spring Task</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/Chart.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/drawGraph.js}"></script>
+    <!--<script type="text/javascript" src="../../resources/static/js/drawGraph.js"></script>-->
 </head>
-<body>
-<canvas id="canvas" width="300" height="300"></canvas>
+<body onload=drawGraph("status","myChart");drawGraph("delay","myChart2")>
+<!--<script type="text/javascript">-->
+    <!--function drawGraph(url, elementId) {-->
+        <!--$.ajax({-->
+            <!--type: "get",-->
+            <!--url: "/getData/" + url,-->
+            <!--contentType: "application/json; charset=utf-8",-->
+            <!--updateTargetId: elementId,-->
+            <!--dataType: "json",-->
+            <!--success:-->
+                <!--function (result) {-->
+                    <!--console.log(result);-->
+                    <!--var ctx1 = document.getElementById(elementId).getContext("2d");-->
+                    <!--var startingData = {-->
+                        <!--type: 'line',-->
+                        <!--data: {-->
+                            <!--labels: result.map(a => a.requestUrl),-->
+                            <!--datasets: [{-->
+                                <!--label: "Responses",-->
+                                <!--backgroundColor: "rgba(75,192,192,0.4)",-->
+                                <!--borderWidth: 2,-->
+                                <!--data: result.map(a => a.responseTime)-->
+                            <!--}]-->
+                        <!--},-->
+                        <!--options: {-->
+                            <!--title: {-->
+                                <!--display: true,-->
+                                <!--text: "Graphic for request"-->
+                            <!--},-->
+                            <!--responsive: true,-->
+                            <!--maintainAspectRatio: true-->
+                        <!--}-->
+                    <!--}-->
+                    <!--var myChart = new Chart(ctx1, startingData);-->
+
+                    <!--// setInterval(function () {-->
+                    <!--//     updLineChart(url, myChart)-->
+                    <!--// }, frequency);-->
+
+                <!--},-->
+            <!--error: function OnErrorCall_(repo) { alert("Something went wrong"); }-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+<div id="container">
+    <canvas id="myChart" width="300" height="300"></canvas>
+    <canvas id="myChart2" width="300" height="300"></canvas>
+</div>
+
+
+<!--<script>-->
+    <!--var ctx = document.getElementById('myChart').getContext('2d');-->
+    <!--var chart = new Chart(ctx, {-->
+        <!--// The type of chart we want to create-->
+        <!--type: 'line',-->
+
+        <!--// The data for our dataset-->
+        <!--data: {-->
+            <!--labels: ["January", "February", "March", "April", "May", "June", "July"],-->
+            <!--datasets: [{-->
+                <!--label: "My First dataset",-->
+                <!--backgroundColor: 'rgb(255, 99, 132)',-->
+                <!--borderColor: 'rgb(255, 99, 132)',-->
+                <!--data: [0, 10, 5, 2, 20, 30, 45],-->
+            <!--}]-->
+        <!--},-->
+
+        <!--// Configuration options go here-->
+        <!--options: {}-->
+    <!--});-->
+<!--</script>-->
 </body>
 </html>
