@@ -1,15 +1,19 @@
 .input {
-	background-color: #4CAF50; /* Green */
-	border: none;
-	color: white;
-	padding: 15px 15px;
-	height: 60px;
-	width: 75px;
-	text-align: center;
-	display: inline-block;
-	font-size: 15px;
-	margin: 4px 2px;
-	cursor: pointer;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    height: 60px;
+    width: 75px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
-.inputStop {background-color: #f44336;} /* Red */
+.inputStop {
+    background-color: #f44336;
+}
+
+/* Red */

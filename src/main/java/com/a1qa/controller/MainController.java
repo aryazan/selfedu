@@ -20,8 +20,6 @@ public class MainController {
 
     @GetMapping(path = "/")
     public String startApp(Model model) throws IOException {
-        //#TODO: удалить очистку после выполнения задания
- //       configService.clearDb();
         configService.setDefaultConfigIfNotExist();
         requestService.updateRequestsCount();
         return "index";

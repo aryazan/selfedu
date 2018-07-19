@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>GSMA Spring Task</title>
+    <title>Config</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}"/>
 </head>
@@ -9,7 +9,7 @@
 <div th:replace="fragments/header :: content"></div>
 <form action="#" th:action="@{/config}" th:object="${config}" method="post">
     <p>Enter requests/min count: <input type="number" th:field="*{count}"/></p>
-    <p><input type="submit" class="input" value="Submit" /></p>
+    <p><input type="submit" class="input" value="Submit"/></p>
 </form>
 </body>
 </html>
