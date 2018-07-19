@@ -1,81 +1,12 @@
-<!--<!DOCTYPE HTML>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-    <!--<title>GSMA Spring Task</title>-->
-    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>-->
-    <!--<script src="path/to/chartjs/dist/Chart.js"></script>-->
-    <!--<script>-->
-        <!--var myChart = new Chart(ctx, {...});-->
-    <!--</script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div th:replace="fragments/header :: content"></div>-->
-<!--<div id="chartContainer" style="height: 300px; width: 100%;"></div>-->
-<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<title>GSMA Spring Task</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
+    <script type="text/javascript" th:src="@{/js/Chart.bundle.js}"></script>
+    <script type="text/javascript" th:src="@{/js/drawGraph.js}"></script>
 </head>
 <body>
-<canvas id="canvas" width="200" height="200"></canvas>
-<script>
-        // var jsonfile = {
-        //     "jsonarray": [
-        //         {
-        //             "id":"5b4ef051b9b57b46b81366f6",
-        //             "responseTime":213,
-        //             "requestUrl":"http://172.20.69.45/status/200"
-        //         },
-        //         {
-        //             "id":"5b4ef052b9b57b46b81366f7",
-        //             "responseTime":12,
-        //             "requestUrl":"http://172.20.69.45/status/200"
-        //         },
-        //         {
-        //             "id":"5b4ef053b9b57b46b81366f8",
-        //             "responseTime":2198,
-        //             "requestUrl":"http://172.20.69.45/status/200"
-        //         }
-        //     ]
-        // };
-
-        const http = new XMLHttpRequest()
-
-        http.open("GET", "http://localhost:220/test")
-        http.send()
-
-
-        http.onload = function () {
-          jsonarray = JSON.parse(http.responseText);
-          var values = Object.keys(obj).map(function (key) { return obj[key]; });
-          console.log(jsonarray)
-        };
-
-        var values = Object.keys(obj).map(function (key) { return obj[key]; });
-
-        var labels = jsonarray(function(e) {
-            return e.requestUrl;
-        });
-        var data = jsonarray(function(e) {
-            return e.responseTime;
-        });;
-
-        var ctx = canvas.getContext('2d');
-        var config = {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Graph Line',
-                    data: data,
-                    backgroundColor: 'rgba(0, 119, 204, 0.3)'
-                }]
-            }
-        };
-
-        var chart = new Chart(ctx, config);
-</script>
+<canvas id="canvas" width="300" height="300"></canvas>
 </body>
 </html>

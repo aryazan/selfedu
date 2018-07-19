@@ -48,8 +48,8 @@ public class RequestService {
         return requestsRepo.findAll();
     }
 
-    public List<Request> getRequestsByUrl(String url) {
-        return requestsRepo.findByRequestUrl(url);
+    public List<Request> getRequestByUrlLike(String url) {
+        return requestsRepo.findByRequestUrlLike(url);
     }
 
     public void saveRequest(Request request) {
@@ -86,9 +86,6 @@ public class RequestService {
         while (sendRequests) {
             saveSendedRequestInDb(STATUS_200_URL);
             saveSendedRequestInDb(String.format(DELAY_URL, RandomUtils.nextInt(MIN_DELAY, MAX_DELAY)));
-            logger.info("=============");
-            logger.info(("Current requests count is: " + config.getCount()).toUpperCase());
-            logger.info("=============");
             try {
                 Thread.sleep(ONE_MINUTE_IN_MS / this.config.getCount());
             } catch (InterruptedException e) {

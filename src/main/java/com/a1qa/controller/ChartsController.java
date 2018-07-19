@@ -17,4 +17,6 @@ public class ChartsController {
         model.addAttribute("dataArray", requestService.getAllRequests());
         return "charts";
     }
+
+
 }
