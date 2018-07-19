@@ -2,7 +2,6 @@ package com.a1qa.service;
 
 import aqa.properties.PropertiesResourceManager;
 import com.a1qa.dao.ConfigRepo;
-import com.a1qa.dao.RequestsRepo;
 import com.a1qa.model.Config;
 import com.a1qa.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ConfigService {
-
-    @Autowired
-    private RequestsRepo requestsRepo;
-
     @Autowired
     private ConfigRepo configRepo;
 
