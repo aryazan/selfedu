@@ -6,15 +6,13 @@
     <title>GSMA Spring Task - main page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/header.css}"/>
-       
 </head>
-   
+ 
 <body>
 <div th:replace="fragments/header :: content"></div>
 <form action="start">
     <input type="submit" class="input" value="Start">
 </form>
-
 <form action="stop">
     <input type="submit" class="input inputStop" value="Stop">
 </form>

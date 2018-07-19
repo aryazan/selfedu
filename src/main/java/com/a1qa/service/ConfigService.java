@@ -25,12 +25,6 @@ public class ConfigService {
         configRepo.save(config);
     }
 
-
-    public void clearDb() {
-        requestsRepo.deleteAll();
-        configRepo.deleteAll();
-    }
-
     public Config getConfig() {
         return configRepo.findConfigById(CONFIG_ID);
     }

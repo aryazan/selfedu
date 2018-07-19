@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface RequestsRepo extends MongoRepository<Request, String> {
 
-
-    public List<Request> findByRequestUrl(String url);
-
     public List<Request> findByRequestUrlLike(String url);
 
 }
