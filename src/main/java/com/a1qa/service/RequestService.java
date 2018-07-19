@@ -76,7 +76,6 @@ public class RequestService {
     }
 
     public void saveRequestToDb(Request request) {
-        logger.info(String.format("Request status  [%s], time : [ %s ms]", request.getRequestUrl(), request.getResponseTime()));
         saveRequest(request);
     }
 
