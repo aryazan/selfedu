@@ -15,7 +15,7 @@ function drawGraph(elementId) {
                     data: {
                         labels: result.map(a => a.requestUrl),
                         datasets: [{
-                            label: "Response time",
+                            label: "Requests",
                             backgroundColor: "rgba(75,192,192,0.4)",
                             data: result.map(a => a.responseTime)
                         }]
@@ -27,15 +27,13 @@ function drawGraph(elementId) {
                         },
                         scales: {
                             xAxes: [{
-                                display: false,
-                                scaleLabel: {
-                                    display: true
-                                }
+                                display: false
                             }],
                             yAxes: [{
                                 display: true,
                                 scaleLabel: {
                                     display: true,
+                                    labelString: 'Response time, ms'
                                 }
                             }]
                         },
@@ -51,7 +49,7 @@ function drawGraph(elementId) {
 
             },
         error: function errorCallGenerating() {
-            alert("Error during chart creation");
+            console.error("Error during chart creation");
         }
     });
 }
@@ -70,7 +68,7 @@ function updateChart(chart, param) {
 
             },
         error: function errorCallUpdate() {
-            alert("Error during chart updating");
+            console.error("Error during chart updating");
         }
     });
 }
